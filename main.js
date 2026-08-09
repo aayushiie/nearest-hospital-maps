@@ -46,29 +46,20 @@ async function findHospital(latitude, longitude, radius = 5000) {
 
         // Remove duplicates
         const uniqueHospitals = new Map();
-
         data.elements.forEach(element => {
-
             const lat = element.lat ?? element.center?.lat;
             const lon = element.lon ?? element.center?.lon;
-
             if (lat == null || lon == null)
                 return;
-
             const key = `${element.tags?.name}-${lat.toFixed(5)}-${lon.toFixed(5)}`;
 
             if (!uniqueHospitals.has(key)) {
-
                 uniqueHospitals.set(key, {
-
                     id: element.id,
                     name: element.tags?.name || "Unnamed Hospital",
-
                     latitude: lat,
                     longitude: lon,
-
                     emergency: element.tags?.emergency === "yes",
-
                     distance: calculateHaversine(
                         latitude,
                         longitude,
@@ -89,7 +80,6 @@ async function findHospital(latitude, longitude, radius = 5000) {
         });
         return hospitals.slice(0, 5);
     }
-
     catch (err) {
         console.error(err);
         return [];
@@ -98,9 +88,11 @@ async function findHospital(latitude, longitude, radius = 5000) {
 }
 
 (async () => {
+    // const userLat = 6.5167;
+    // const userLon = 3.3850;
     const userLat = 5.68951;
     const userLon = -0.20914;
-    
+
     const map = L.map("map").setView([userLat, userLon], 14);
 
     L.tileLayer(
@@ -161,7 +153,5 @@ async function findHospital(latitude, longitude, radius = 5000) {
                     </a>
                 </div>
             `);
-
     });
-
 })();
