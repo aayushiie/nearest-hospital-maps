@@ -28,10 +28,12 @@ async function findHospital(latitude, longitude, radius = 5000) {
     `;
 
     try {
+        const backendUrl = "http://localhost:3000/api/hospitals"
+
         const response = await fetch(
             // "https://overpass-api.de/api/interpreter", // external url
             // "/overpass-api/api/interpreter", // proxy url
-            "/.netlify/functions/get-hospitals",
+            backendUrl,
             {
                 method: "POST",
                 headers: {
@@ -91,10 +93,10 @@ async function findHospital(latitude, longitude, radius = 5000) {
 }
 
 (async () => {
-    const userLat = 6.5167; //lagos
-    const userLon = 3.3850;
-    // const userLat = 5.68951; //ghana
-    // const userLon = -0.20914;
+    // const userLat = 6.5167; //lagos
+    // const userLon = 3.3850;
+    const userLat = 5.68951; //ghana
+    const userLon = -0.20914;
 
     const map = L.map("map").setView([userLat, userLon], 14);
 
