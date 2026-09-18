@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/overpass-api/*"
+  to = "https://overpass-api.de"
+  status = 200
+  force = true
