@@ -31,12 +31,11 @@ async function findHospital(latitude, longitude, radius = 5000) {
         const response = await fetch(
             // "https://overpass-api.de/api/interpreter", // external url
             // "/overpass-api/api/interpreter", // proxy url
-            "https://openstreetmap.fr", // osm france public instance
+            "/.netlify/functions/get-hospitals",
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    "Accept": "application/json"
                     // "User-Agent": "EmergencyHospitalMaps/1.0 (https://emergency-hospital-maps.netlify.app)"
                 },
                 body: new URLSearchParams({ data: query })
@@ -48,7 +47,7 @@ async function findHospital(latitude, longitude, radius = 5000) {
 
         const data = await response.json();
 
-        // Remove duplicates
+        // remove duplicates
         const uniqueHospitals = new Map();
         data.elements.forEach(element => {
             const lat = element.lat ?? element.center?.lat;
@@ -76,7 +75,7 @@ async function findHospital(latitude, longitude, radius = 5000) {
 
         const hospitals = [...uniqueHospitals.values()];
 
-        // Emergency hospitals first, then nearest
+        // get emergency hospitals first, then nearest
         hospitals.sort((a, b) => {
             if (a.emergency !== b.emergency)
                 return a.emergency ? -1 : 1;
