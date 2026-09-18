@@ -28,7 +28,8 @@ async function findHospital(latitude, longitude, radius = 5000) {
     `;
 
     try {
-        const backendUrl = "https://maps-server-jqww.onrender.com/api/hospitals"
+        const backendUrl = "https://hospital-maps-server.vercel.app/api/hospitals"
+        // const backendUrl = "http://localhost:3000/api/hospitals"
 
         const response = await fetch(
             // "https://overpass-api.de/api/interpreter", // external url
