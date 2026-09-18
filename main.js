@@ -14,7 +14,7 @@ function calculateHaversine(lat1, lon1, lat2, lon2) {
 
 async function findHospital(latitude, longitude, radius = 5000) {
     const query = `
-        [out:json][timeout:500];
+        [out:json][timeout:15];
         (
         node["amenity"="hospital"](around:${radius},${latitude},${longitude});
         way["amenity"="hospital"](around:${radius},${latitude},${longitude});
@@ -29,11 +29,13 @@ async function findHospital(latitude, longitude, radius = 5000) {
 
     try {
         const response = await fetch(
-            "https://overpass-api.de/api/interpreter",
+            // "https://overpass-api.de/api/interpreter", // external url
+            "/overpass-api/api/interpreter", // proxy url
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "User-Agent": "EmergencyHospitalMaps/1.0 (https://emergency-hospital-maps.netlify.app)"
                 },
                 body: new URLSearchParams({ data: query })
             }
@@ -88,10 +90,10 @@ async function findHospital(latitude, longitude, radius = 5000) {
 }
 
 (async () => {
-    // const userLat = 6.5167;
-    // const userLon = 3.3850;
-    const userLat = 5.68951;
-    const userLon = -0.20914;
+    const userLat = 6.5167; //lagos
+    const userLon = 3.3850;
+    // const userLat = 5.68951; //ghana
+    // const userLon = -0.20914;
 
     const map = L.map("map").setView([userLat, userLon], 14);
 
